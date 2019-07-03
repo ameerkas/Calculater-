@@ -6,7 +6,7 @@ class Calculator {
   }
 
   clear() {
-    this.currentOperand = ''
+    this.currentOperand = '0'
     this.previousOperand = ''
     this.operation = undefined
   }
@@ -14,14 +14,21 @@ class Calculator {
   delete() {
     this.currentOperand = this.currentOperand.toString().slice(0, -1)
   }
-
+  delete2() {
+    this.previousOperand = this.previousOperand.toString().slice(0, -1)
+  }
   appendNumber(number) {
     if (number === '.' && this.currentOperand.includes('.')) return
     this.currentOperand = this.currentOperand.toString() + number.toString()
   }
 
   chooseOperation(operation) {
-    if (this.currentOperand === '') return
+    if (this.currentOperand === ''){
+      if(this.previousOperand !== ''){
+        this.operation = operation
+      }
+     return
+    }
     if (this.previousOperand !== '') {
       this.compute()
     }
@@ -37,24 +44,21 @@ class Calculator {
     if (isNaN(prev) || isNaN(current)) return
     switch (this.operation) {
       case '+':
-         // TODO: remove last character (if it is operator)
         computation = prev + current
         break
       case '-':
-        // TODO: remove last character (if it is operator)
         computation = prev - current
         break
       case '*':
-         // TODO: remove last character (if it is operator)
         computation = prev * current
         break
       case '÷':
-         // TODO: remove last character (if it is operator)
         computation = prev / current
         break
       default:
         return
     }
+    
     this.currentOperand = computation
     this.operation = undefined
     this.previousOperand = ''
@@ -128,3 +132,4 @@ deleteButton.addEventListener('click', button => {
   calculator.delete()
   calculator.updateDisplay()
 })
+
